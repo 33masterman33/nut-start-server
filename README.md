@@ -117,3 +117,5 @@ chmod 600 /etc/nut/upsmon.conf
 ```
 MODE=netserver
 ```
+11. If using iDRAC or another LOM for power control attach your PIs ssh key to an account that has access to power control. The script supports iDRAC and wakeonlan only out of the box as that is the only things my systems supports.
+12. 
