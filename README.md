@@ -3,11 +3,14 @@ In this project I will be using a headless Raspberry Pi Zero W that I had lying 
 
 - [nut-start-server](#nut-start-server)
   * [Setup Headless Pi](#setup-headless-pi)
-      - [balenaEtcher](#balenaetcher)
-      - [Raspberry Pi Imager](#raspberry-pi-imager)
+    + [balenaEtcher](#balenaetcher)
+    + [Raspberry Pi Imager](#raspberry-pi-imager)
+    + [Configure PI](#configure-pi)
+    + [Install NUT Server](#install-nut-server)
+    + [Setup NUT Client](#setup-nut-client)
+    + [Conclusion](#conclusion)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 ## Setup Headless Pi
 Install your preferred img writer. I will be using balenaEtcher although the offical raspberry pi one might be easier. A standard install works just as well headless is just more convient for me. If you don't want headless you can still follow along and just plug in a montior and keyboard.
