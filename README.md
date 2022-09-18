@@ -58,7 +58,7 @@ sudo apt-get upgrade -y
 sudo apt dist-upgrade -y
 ```
 
-### Install NUT
+### Install NUT Server
 I am doing this on a pi so I will be using apt. Substitute the command if using another os.
 1. Install NUT with the following command `sudo apt install nut`
 2. Run `nut-scanner` it should output all the UPSs connected to your system in the form nut wants them in. This is what mine looks like 
@@ -118,4 +118,31 @@ chmod 600 /etc/nut/upsmon.conf
 MODE=netserver
 ```
 11. If using iDRAC or another LOM for power control attach your PIs ssh key to an account that has access to power control. The script supports iDRAC and wakeonlan only out of the box as that is the only things my systems supports.
-12. 
+12. Download the script from the github repo and ensure it is executable with `sudo chmod +x ./script.sh`
+13. If using iDRAC update the hostname and idrac username in the variables section of the script and set wakeonlan to 0. If using wakeonlan set the hostname and mac address.
+14. We need to edit upsmon again to add the condition to execute the script. This can be done by opening up upsmon with `sudo nano /etc/nut/upsmon.conf` and adding
+```
+NOTIFYFLAG ONLINE EXEC+WALL+SYSLOG
+NOTFIFYCMD /home/pi/script.sh #substitute with the path to your script.
+```
+15. While the file is still open comment out the shutdown command. Because the server is running off a low power easy to deploy Pi I don't want it shutting off and I want it to remain on to reboot my server for as long as possible. I added the # to comment it out
+```
+# SHUTDOWNCMD "/sbin/shutdown -h +0"
+```
+16. Reload the upsmon config file with `upsmon -c reload`
+### Setup NUT Client
+1. Install NUT with `sudo apt-get install nut` 
+2. To configure NUT as a client inside of /etc/nut/nut.conf paste
+```
+MODE=netclient
+```
+3. Now we need to tell it where to find the UPS. To do this open /etc/nut/upsmon.conf and type while using your Pi's IP address
+```
+MONITOR APC750@<ipaddress> 1 mon_slave monslave slave
+```
+4. Restart NUT with
+```
+service nut-client restart
+```
+### Conclusion
+You should now have a working nut server. I haven't had much time to test so far but this configuration has been working for me. My Pi Zero W and usb hub only draw 1.5 W making this the ideal autoboot solution!
